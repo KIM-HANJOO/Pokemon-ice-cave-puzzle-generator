@@ -43,7 +43,7 @@ clearvars e_rand_x; clearvars e_rand_y;
 
 %% generate path (1 means 'yes')
 
-%% decide horizontal vs vertical
+%% decide horizontal vs vertical (for the first and the end point)
 
 if startpoint(1, 1) ~= 0
     if startpoint(1, 1) ~= width + 1
