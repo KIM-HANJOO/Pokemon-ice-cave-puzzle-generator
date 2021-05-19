@@ -2,13 +2,13 @@ clc;
 clear all;
 
 %%
-width = 5;
+width = 10;
 length = 4;
 
 startpoint_row = [1];
 startpoint_column = [2, 3];
 
-endpoint_row = [2, 3];
+endpoint_row = [4, 5];
 endpoint_column = [7];
 
 
@@ -41,13 +41,13 @@ map(:, 1) = 1; map(:, end) = 1;
 
 for i = 1 : max(size(startpoint_column))
     for j = 1 : max(size(startpoint_row))
-        map(startpoint_row(1, j), startpoint_column(1, i)) = 8;
+        map(startpoint_row(1, j), startpoint_column(1, i)) = 111111;
     end
 end
 
 for i = 1 : max(size(endpoint_column))
     for j = 1 : max(size(endpoint_row))
-        map(endpoint_row(1, j), endpoint_column(1, i)) = 8;
+        map(endpoint_row(1, j), endpoint_column(1, i)) = 222222;
     end
 end
 
@@ -122,8 +122,8 @@ if horizontal == 0
     num_path = num_path + 1;
     
     %%% next path = vertical
-    horizontal = 0;
-    vertical = 1;
+    horizontal = 1;
+    vertical = 0;
 
 elseif horizontal == 1
     rand_by_length = randperm(length); % x is randomly select, y is fixed
@@ -144,9 +144,15 @@ elseif horizontal == 1
     num_path = num_path + 1;
     
     %%% next path = horizontal
-    horizontal = 1;
-    vertical = 0;
+    horizontal = 0;
+    vertical = 1;
 end
+
+clearvars rand_by_width;
+clearvars rand_by_length;
+clearvars row_new;
+clearvars column_new;
+
 
 %% second path, get rid of the possibility that the puzzle can be done immediately
 % 
@@ -170,32 +176,10 @@ end
 
 %% paths after
 
-%while keep == 1
+% while keep == 1
 
-if horizontal == 1 %%% have to make new 'column', row is fixed
-    %%% see if rock exists in the same row
-    a = 1; b = 1;
-    map_now = map(path(num_path - 1, 1), :); % slice the row we're checking
-    map_num = zeros(1, max(size(map_now)));
-    for i = 1 : max(size(map_now))
-        map_num(1, i) = i;
-    end
-    map_check = zeros(1, max(size(map_now)));
-    for i = 1 : max(size(map_now))
-        map_check(1, i) = map_now(1, i) * (map_num(1, i) - path(num_path - 1, 2));
-    end %%% 'checker' is set
-    
-    for i = 1 : max(size(map_now))
-        if map_check(1, i) > 0
-            a = i;
-        elseif map_check(1, i) < 0
-            b = i;
-        end
-    end
-    disp([path(num_path - 1, 1), a]);
-    disp([path(num_path - 1, 1), b]);
-    
-elseif horizontal == 0
+
+if horizontal == 0
      %%% see if rock exists in the same column
     a = 1; b = 1;
     map_now = map(:, path(num_path - 1, 2)); % slice the row we're checking
@@ -209,16 +193,91 @@ elseif horizontal == 0
     end %%% 'checker' is set
     
     for i = 1 : max(size(map_now))
-        if map_check(i, 1) > 0
+        if map_check(i, 1) < 0
             a = i;
-        elseif map_check(i, 1) < 0
+        elseif map_check(i, 1) > 0
             b = i;
         end
     end
     disp([path(num_path - 1, 1), a]);
     disp([path(num_path - 1, 1), b]);
     
+    rand = randperm(b - a - 1) + a * ones(1, b - a - 1); % x is randomly select, y is fixed
+        if rand(1, 1) == row
+        row_new = rand(1, 2);
+    elseif rand(1, 1) ~= row
+        row_new = rand(1, 1);
+    end
+    
+    %%% add rock
+    map(row_new + (row_new - row) / abs(row_new - row), column) = 1;
+    
+    
+    %%% update x and y
+    path(num_path, 1) = row_new;
+    path(num_path, 2) = column;
+    row = row_new;
+    column = column;
+    num_path = num_path + 1;
+    
+    %%% next path = vertical
+    horizontal = 1;
+    vertical = 0;
+    
+    
+elseif horizontal == 1 %%% have to make new 'column', row is fixed
+    %%% see if rock exists in the same row
+    a = 1; b = 1;
+    map_now = map(path(num_path - 1, 1), :); % slice the row we're checking
+    map_num = zeros(1, max(size(map_now)));
+    for i = 1 : max(size(map_now))
+        map_num(1, i) = i;
+    end
+    map_check = zeros(1, max(size(map_now)));
+    for i = 1 : max(size(map_now))
+        map_check(1, i) = map_now(1, i) * (map_num(1, i) - path(num_path - 1, 2));
+    end %%% 'checker' is set
+    
+    for i = 1 : max(size(map_now))
+        if map_check(1, i) < 0
+            a = i;
+        elseif map_check(1, i) > 0
+            b = i;
+        end
+    end
+    disp([path(num_path - 1, 1), a]);
+    disp([path(num_path - 1, 1), b]);
+    
+    
+    
+    rand = randperm(b - a - 1) + a * ones(1, b - a - 1); % x is randomly select, y is fixed
+    
+    if rand(1, 1) == column
+        column_new = rand(1, 2);
+    elseif rand(1, 1) ~= column
+        column_new = rand(1, 1);
+    end
+    
+    %%% add rock
+    map(row, column_new + (column_new - column) / abs(column_new - column)) = 1;
+    
+    %%% update x and y
+    path(num_path, 1) = row;
+    path(num_path, 2) = column_new;
+    row = row;
+    column = column_new;
+    num_path = num_path + 1;
+    
+    %%% next path = horizontal
+    horizontal = 0;
+    vertical = 1;
+  
+
 end
+
+% end
+%% generated
+disp(map)
 
 %%
 % 
