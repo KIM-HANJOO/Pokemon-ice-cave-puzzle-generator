@@ -1,4 +1,4 @@
-# Pokémon ice cave puzzle
+# Pokémon ice-cave puzzle generator
 automatically makes Pokémon(Gold/Silver edition) ice cave puzzle
 ***
 **examples of randomly generated ice-caves | Matlab code**
