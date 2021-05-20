@@ -3,11 +3,11 @@ automatically makes Pokémon(Gold/Silver edition) ice cave puzzle
 ***
 **examples
 <p align="center">
-  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/example.jpg" img width="400px"/>
+  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/example.jpg" img width="450px"/>
 <p/>
 
 <p align="center">
-  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/example2.jpg" img width="400px"/>
+  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/example2.jpg" img width="450px"/>
 <p/>
 
 ***
