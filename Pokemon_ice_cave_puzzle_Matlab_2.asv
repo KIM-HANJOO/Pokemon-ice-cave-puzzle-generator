@@ -2,15 +2,16 @@ clc;
 clear all;
 
 %%
-width = 10;
-length = 4;
+width = 6;
+length = 6;
 
 startpoint_row = [1];
-startpoint_column = [2, 3];
+startpoint_column = [3, 4];
 
-endpoint_row = [4, 5];
-endpoint_column = [7];
+endpoint_row = [3, 4];
+endpoint_column = [8];
 
+rocks_initial = [3, 4; 5, 6];
 
 %% randomly set startpoint & endpoint
 
@@ -52,11 +53,7 @@ for i = 1 : max(size(endpoint_column))
 end
 
 
-clearvars startpoint_column; clearvars startpoint_row;
-clearvars endpoint_column; clearvars endpoint_row;
 
-clearvars s_rand_column; clearvars s_rand_row;
-clearvars e_rand_column; clearvars e_rand_row;
 
 %% decide horizontal vs vertical
 
@@ -92,6 +89,15 @@ path = zeros(1, 2);  % record path
 path(1, 1 : 2) = startpoint;
 num_path = 2;
 
+rocks_initial = [3, 4; 5, 6];
+
+rocks = zeros(1, 2); % record rocks
+num_rocks = 1;
+for i = 1 : max(size(rocks_initial(:, 1)))
+    rocks_initial(i, :) = rocks(num_rocks, :);
+    num_rocks = num_rocks + 1;
+end
+
 horizontal = horizontal_s;
 vertical = vertical_s;
 
@@ -112,6 +118,8 @@ if horizontal == 0
     
     %%% add rock
     map(row_new + (row_new - row) / abs(row_new - row), column) = 1;
+    rocks(num_rocks, :) = [row_new + (row_new - row) / abs(row_new - row), column];
+    num_rocks = num_rocks + 1;
     
     
     %%% update x and y
@@ -135,6 +143,8 @@ elseif horizontal == 1
     
     %%% add rock
     map(row, column_new + (column_new - column) / abs(column_new - column)) = 1;
+    rocks(num_rocks, :) = [row, column_new + (column_new - column) / abs(column_new - column)];
+    num_rocks = num_rocks + 1;
     
     %%% update x and y
     path(num_path, 1) = row;
@@ -176,10 +186,12 @@ clearvars column_new;
 
 %% paths after
 
-% while keep == 1
+while keep == 1
 
 
 if horizontal == 0
+    clearvars column_new;
+    clearvars row_new;
      %%% see if rock exists in the same column
     a = 1; b = 1;
     map_now = map(:, path(num_path - 1, 2)); % slice the row we're checking
@@ -224,9 +236,33 @@ if horizontal == 0
     horizontal = 1;
     vertical = 0;
     
+    if horizontal == horizontal_e
+     a = 1; b = 1;
+    map_now = map(path(num_path - 1, 1), :); % slice the row we're checking
+    map_num = zeros(1, max(size(map_now)));
+    for i = 1 : max(size(map_now))
+        map_num(1, i) = i;
+    end
+    map_check = zeros(1, max(size(map_now)));
+    for i = 1 : max(size(map_now))
+        map_check(1, i) = map_now(1, i) * (map_num(1, i) - path(num_path - 1, 2));
+    end %%% 'checker' is set
+    
+    for i = 1 : max(size(map_now))
+        if map_check(1, i) > 0
+            b = i;
+        end
+    end
+    if b == endpoint(1, 2)
+        keep = 0;
+    end
+    end
+    
     
 elseif horizontal == 1 %%% have to make new 'column', row is fixed
     %%% see if rock exists in the same row
+    clearvars column_new;
+    clearvars row_new;
     a = 1; b = 1;
     map_now = map(path(num_path - 1, 1), :); % slice the row we're checking
     map_num = zeros(1, max(size(map_now)));
@@ -271,66 +307,70 @@ elseif horizontal == 1 %%% have to make new 'column', row is fixed
     %%% next path = horizontal
     horizontal = 0;
     vertical = 1;
-  
+    
+    if horizontal == horizontal_e
+    a = 1; b = 1;
+    map_now = map(:, path(num_path - 1, 2)); % slice the row we're checking
+    map_num = zeros(max(size(map_now)), 1);
+    for i = 1 : max(size(map_now))
+        map_num(i, 1) = i;
+    end
+    map_check = zeros(max(size(map_now)), 1);
+    for i = 1 : max(size(map_now))
+        map_check(i, 1) = map_now(i, 1) * (map_num(i, 1) - path(num_path - 1, 1));
+    end %%% 'checker' is set
+    
+    for i = 1 : max(size(map_now))
+        if map_check(i, 1) > 0
+            b = i;
+        end
+    end
+    if b == endpoint(1, 1)
+        keep = 0;
+    end
+    end
 
 end
 
-% end
-%% generated
-disp(map)
+for i = 1 : 2
+    path(num_path, i) = endpoint(1, i);
+end
+    
+end
 
-%%
-% 
-% if horizontal == 1
-%     rand_by_width = randperm(width); % x is randomly select, y is fixed
-%     if rand_by_width(1, 1) == row
-%         row_new = rand_by_width(1, 2);
-%     elseif rand_by_width(1, 1) ~= row
-%         row_new = rand_by_width(1, 1);
-%     end
-%     
-%     %%% add rock
-%     map(row_new + (row_new - row) / abs(row_new - row), column) = 1
-%     
-%     
-%     %%% update x and y
-%     path(num_path, 1) = row_new;
-%     path(num_path, 2) = column;
-%     row = row_new;
-%     column = column;
-%     num_path = num_path + 1;
-%     
-%     %%% next path = vertical
-%     horizontal = 0;
-%     vertical = 1;
-% 
-% elseif horizontal == 0
-%     rand_by_length = randperm(length); % x is randomly select, y is fixed
-%     if rand_by_length(1, 1) == column
-%         column_new = rand_by_length(1, 2);
-%     elseif rand_by_length(1, 1) ~= column
-%         column_new = rand_by_length(1, 1);
-%     end
-%     
-%     %%% add rock
-%     map(row, column_new + (column_new - column) / abs(column_new - column)) = 1;
-%     
-%     %%% update x and y
-%     path(num_path, 1) = row;
-%     path(num_path, 2) = column_new;
-%     row = row;
-%     column = column_new;
-%     num_path = num_path + 1;
-%     
-%     %%% next path = horizontal
-%     horizontal = 1;
-%     vertical = 0;
-% end
-% 
-
-%end
 
 %% overwrite the walls
-% 
-% map(1, :) = 999999; map(end, :) = 999999;
-% map(:, 1) = 999999; map(:, end) = 999999;
+map(1, :) = 999999; map(end, :) = 999999;
+map(:, 1) = 999999; map(:, end) = 999999;
+
+
+
+%% generated
+
+map(1, :) = 999999; map(end, :) = 999999;
+map(:, 1) = 999999; map(:, end) = 999999;
+
+for i = 1 : max(size(startpoint_column))
+    for j = 1 : max(size(startpoint_row))
+        map(startpoint_row(1, j), startpoint_column(1, i)) = 1111;
+    end
+end
+
+for i = 1 : max(size(endpoint_column))
+    for j = 1 : max(size(endpoint_row))
+        map(endpoint_row(1, j), endpoint_column(1, i)) = 2222;
+    end
+end
+
+disp(map)
+%%
+clearvars startpoint_column; clearvars startpoint_row;
+clearvars endpoint_column; clearvars endpoint_row;
+
+clearvars s_rand_column; clearvars s_rand_row;
+clearvars e_rand_column; clearvars e_rand_row;
+
+%%
+plot(path(:, 1),path(:, 2),'ro-'); hold on;
+
+axis([1, width + 2, 1, length + 2])
