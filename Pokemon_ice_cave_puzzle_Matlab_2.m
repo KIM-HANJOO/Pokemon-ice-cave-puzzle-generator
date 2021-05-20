@@ -195,7 +195,7 @@ if horizontal == 0
     clearvars column_new;
     clearvars row_new;
      %%% see if rock exists in the same column
-    a = 1; b = 1;
+    clearvars a; clearvars b;
     if num_path == 2
         map_now = map(:, startpoint(1, 2));
     elseif num_path > 2
@@ -206,17 +206,24 @@ if horizontal == 0
         map_num(i, 1) = i;
     end
     map_check = zeros(max(size(map_now)), 1);
+
     for i = 1 : max(size(map_now))
         map_check(i, 1) = map_now(i, 1) * (map_num(i, 1) - path(num_path - 1, 1));
     end %%% 'checker' is set
-    
+
+    if num_path == 2
+        map_check(1, 1) = -1;
+    end
+
     for i = 1 : max(size(map_now))
         if map_check(i, 1) < 0
             a = i;
         elseif map_check(i, 1) > 0
             b = i;
-        end
+        end        
     end
+
+%     disp(num_rocks - 1)
     
     rand = randperm(b - a - 1) + a * ones(1, b - a - 1); % x is randomly select, y is fixed
         if rand(1, 1) == row
@@ -244,7 +251,7 @@ if horizontal == 0
     if horizontal == horizontal_e
     if row == endpoint(1, 1)
         
-     a = 1; b = 1;
+    clearvars a; clearvars b;
     map_now = map(path(num_path - 1, 1), :); % slice the row we're checking
     map_num = zeros(1, max(size(map_now)));
     for i = 1 : max(size(map_now))
@@ -262,6 +269,7 @@ if horizontal == 0
     end
     if b == endpoint(1, 2)
         keep = 0;
+        
     end
     end
     end
@@ -271,7 +279,7 @@ elseif horizontal == 1 %%% have to make new 'column', row is fixed
     %%% see if rock exists in the same row
     clearvars column_new;
     clearvars row_new;
-    a = 1; b = 1;
+    clearvars a; clearvars b;
     if num_path == 2
         map_now = map(startpoint(1, 1), :);
     elseif num_path > 2
@@ -285,6 +293,10 @@ elseif horizontal == 1 %%% have to make new 'column', row is fixed
     for i = 1 : max(size(map_now))
         map_check(1, i) = map_now(1, i) * (map_num(1, i) - path(num_path - 1, 2));
     end %%% 'checker' is set
+    
+    if num_path == 2
+    map_check(1, 1) = -1;
+    end
     
     for i = 1 : max(size(map_now))
         if map_check(1, i) < 0
@@ -321,7 +333,7 @@ elseif horizontal == 1 %%% have to make new 'column', row is fixed
     
     if horizontal == horizontal_e
     if column == endpoint(1, 2)
-    a = 1; b = 1;
+    clearvars a; clearvars b;
     map_now = map(:, path(num_path - 1, 2)); % slice the row we're checking
     map_num = zeros(max(size(map_now)), 1);
     for i = 1 : max(size(map_now))
@@ -377,6 +389,7 @@ for i = 1 : max(size(endpoint_column))
 end
 
 disp(map)
+disp(path)
 %%
 clearvars startpoint_column; clearvars startpoint_row;
 clearvars endpoint_column; clearvars endpoint_row;
