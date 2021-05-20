@@ -11,6 +11,7 @@ automatically makes Pokémon(Gold/Silver edition) ice cave puzzle
 <p/>
 
 **bad solution** (left : path / right : map)
+rocks generated afterwards blocks the path generated beforwards
 <p align="center">
   <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/bad_example.jpg" img width="450px"/>
 <p/>
