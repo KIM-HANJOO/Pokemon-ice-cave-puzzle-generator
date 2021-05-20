@@ -17,7 +17,7 @@ rocks generated afterwards blocks the path generated beforwards
 <p/>
 
 ***
-**example of in-game ice cave puzzle**
+**example of in-game real ice cave puzzle**
 <p align="center">
   <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/Pokemon_Gold_Silver_tiles/ice_cave_puzzle_example.jpg" img width="400px"/>
 <p/>
