@@ -1,7 +1,7 @@
 # Pokémon ice cave puzzle
 automatically makes Pokémon(Gold/Silver edition) ice cave puzzle
 ***
-**examples of randomly generated ice-caves**
+**examples of randomly generated ice-caves | Matlab code**
 <p align="center">
   <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/example.jpg" img width="450px"/>
 <p/>
