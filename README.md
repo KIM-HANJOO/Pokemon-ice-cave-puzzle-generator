@@ -10,7 +10,7 @@ automatically makes Pokémon(Gold/Silver edition) ice cave puzzle
   <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/example2.jpg" img width="450px"/>
 <p/>
 
-**bad solution**
+**bad solution** (left : path / right : map)
 <p align="center">
   <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/bad_example.jpg" img width="450px"/>
 <p/>
