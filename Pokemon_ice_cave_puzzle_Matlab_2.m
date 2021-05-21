@@ -2,14 +2,15 @@ save puzzle_example.mat
 clc;
 clear all;
 
+
 %%
 width = 6;
 length = 6;
 
 startpoint_row = [1];
-startpoint_column = [3];
+startpoint_column = [3, 4];
 
-endpoint_row = [4];
+endpoint_row = [4, 5];
 endpoint_column = [8];
 
 rocks_initial = [0, 0];
@@ -130,6 +131,7 @@ if horizontal == 0
     map_num = zeros(max(size(map_now)), 1);
     for i = 1 : max(size(map_now))
         map_num(i, 1) = i;
+                                                                            disp(map_now)
         
     end
     map_check = zeros(max(size(map_now)), 1);
@@ -137,11 +139,11 @@ if horizontal == 0
     for i = 1 : max(size(map_now))
         map_check(i, 1) = map_now(i, 1) * (map_num(i, 1) - path(num_path - 1, 1));
     end %%% 'checker' is set
-
+                                                                            disp(map_check)
     if num_path == 2
         map_check(1, 1) = -1;
     end
-
+                                                                            disp(map_check)
     for i = 1 : max(size(map_now))
         if map_check(i, 1) < 0 %%% check rock
             a = i;
@@ -159,7 +161,7 @@ if horizontal == 0
             end
         end        
     end
-
+                                                                            disp(a), disp(b), disp(c), disp(d)
 %     disp(num_rocks - 1)
 
 if c ~= 0
