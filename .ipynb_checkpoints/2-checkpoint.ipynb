@@ -89,7 +89,7 @@
     "\n",
     "print(map)\n",
     "\n",
-    "## set "
+    "## set startpoint, endpoint\n"
    ]
   },
   {
