@@ -82,8 +82,7 @@ now = startpoint
 
 ### path set
 path = np.zeros([(length + 2) * (width + 2), 2])
-path[0, :] = startpoint
-num_path = 1
+num_path = 0
 
 ### rock set
 rocks = np.zeros([(length + 2) * (width + 2), 2])
@@ -301,6 +300,27 @@ with np.printoptions(precision=3, suppress=True):
 #         Temp = rocks[0 : i, 0 : 1]
 #         rocks = Temp
 
+#print(path)
+
+
+rocks = rocks[0 : num_rocks, :]
+path = path[0 : num_path, :]
+
+print(num_path)
 print(path)
+
+
+
+
+# for i in range(0, path.shape[0]):
+#     if path[i][0] != 0 or path[i][1] != 0:
+#         a = i
+
+# path = path[0 : a, :]
+
+
+# print(num_path)
+# print(path)
+
 print(rocks)
 print(now)
