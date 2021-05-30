@@ -3,17 +3,17 @@ automatically makes Pokémon(Gold/Silver ver.) ice cave puzzle
 ***
 **examples of randomly generated ice-caves | Matlab code**
 <p align="center">
-  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/example.jpg" img width="450px"/>
+  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/repo_images/example.jpg" img width="450px"/>
 <p/>
 
 <p align="center">
-  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/example2.jpg" img width="450px"/>
+  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/repo_images/example2.jpg" img width="450px"/>
 <p/>
 
 **bad solution** (left : path / right : map)  
 rocks generated afterwards blocks the path generated beforwards
 <p align="center">
-  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/bad_example.jpg" img width="450px"/>
+  <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/repo_images/bad_example.jpg" img width="450px"/>
 <p/>
 
 ***
