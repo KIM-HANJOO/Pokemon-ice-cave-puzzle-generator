@@ -1,14 +1,50 @@
-#######################################################################
-#################### ice-cave puzzle library ##########################
 import numpy as np
 from random import *
+from numpy.core.numerictypes import maximum_sctype
 
 from numpy.core.records import array
 from numpy.lib.stride_tricks import _broadcast_to_dispatcher
-#def nextile(now, horizontal, maps)
 
-#######################################################################
-#######################################################################
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+######################################### ice-cave puzzle library ###############################################
+
+##### functions #####
+
+##### nextile #####
+# randomly decide the next step, considering the previous route and the stones
+# code : now, maps, horizontal, rock_now = nextile(now, maps, horizontal)
+
+
+##### writemap #####
+# after making path, update the path and rocks to the maps
+# code : maps, path, rocks, num_path, num_rocks = writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, now_latest)
+
+
+##### endcheck #####
+# check if the puzzle can end
+# code : keep, maps, path = endcheck(keep, maps, path, now, endpoint, horizontal, horizontal_e)
+
+
+##### imstuck #####
+# temporarily blocks the tile that is between rocks (can be a stuck-point)
+# code : maps = imstuck(maps)
+
+
+##### imnotstuck #####
+# delete the blocks that are made by 'imstuck'
+# code : maps = imnotstuck(maps)
+
+
+##### redraw #####
+# redraw the array 'path', 'num_path' and 'rocks', 'num_rocks'
+# code : path, num_path = redraw(path, num_path)
+
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
+#################################################################################################################
 
 def nextile(now, maps, horizontal):
 
@@ -138,8 +174,6 @@ def nextile(now, maps, horizontal):
 #######################################################################
 #######################################################################
 
-# def writemap (maps, rocks, path)
-
 def writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, now_latest):
     
     if horizontal == 1:
@@ -179,9 +213,7 @@ def writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, 
 #######################################################################
 #######################################################################
 
-
-
-def endcheck(keep, maps, now, endpoint, horizontal, horizontal_e):
+def endcheck(keep, maps, path, now, endpoint, horizontal, horizontal_e):
       
     
     if horizontal != horizontal_e:
@@ -204,7 +236,8 @@ def endcheck(keep, maps, now, endpoint, horizontal, horizontal_e):
                 if checker[i] > 99:
                     leftend = i
                 if checker[i] > -99:
-                    rockend = i + 1
+                    rightend = i + 1
+            
 
             for i in range(endpoint.shape[0]):
                 if (endpoint[i] - np.array([leftend, [now[1]]]))[0] == 0 and (endpoint[i] - np.array([leftend, [now[1]]]))[1] == 0 :
@@ -212,10 +245,10 @@ def endcheck(keep, maps, now, endpoint, horizontal, horizontal_e):
     
                 elif (endpoint[i] - np.array([rightend, [now[1]]]))[0] == 0 and (endpoint[i] - np.array([rightend, [now[1]]]))[1] == 0 :
                     keep = 0
-
-            
-
-
+        
+            maps[min(now[0], endpoint[0][0]) : max(now[0], endpoint[0][0]), now[1]] = 0.001
+        
+        
         elif horizontal == 1:
             map_endcheck = maps[now[0], :]
             owns_endcheck = np.arange(map_endcheck.shape[0])
@@ -230,8 +263,8 @@ def endcheck(keep, maps, now, endpoint, horizontal, horizontal_e):
                 if checker[i] > 99:
                     leftend = i
                 if checker[i] > -99:
-                    rockend = i + 1
-
+                    rightend = i + 1
+            
 
             for i in range(endpoint.shape[0]):
                 if (endpoint[i] - np.array([now[0], leftend]))[0] == 0 and (endpoint[i] - np.array([now[0], leftend]))[1] == 0 :
@@ -240,4 +273,85 @@ def endcheck(keep, maps, now, endpoint, horizontal, horizontal_e):
                 elif (endpoint[i] - np.array([now[0], rightend]))[0] == 0 and (endpoint[i] - np.array([now[0], rightend]))[1] == 0 :
                     keep = 0
 
-    return keep
+            maps[now[0], min(now[1], endpoint[0][1]) : max(now[1], endpoint[0][1])] = 0.001
+
+
+    if keep == 0:
+        if horizontal_e == 1:
+            if now[0] == endpoint[0][0]:
+                mini = min(now[1], endpoint[0][1]) ##needs to be adjusted
+                maxi = max(now[1], endpoint[0][1])
+
+                for i in range(mini, maxi + 1):
+                    path[num_path, :] = [now[0], i]
+                    num_path = num_path + 1
+                    
+            elif now[0] == endpoint[1][0]:
+                mini = min(now[1], endpoint[1][1])
+                maxi = max(now[1], endpoint[1][1])
+
+                for i in range(mini, maxi + 1):
+                    path[num_path, :] = [now[0], i]
+                    num_path = num_path + 1
+                    
+        elif horizontal_e == 0:
+            if now[1] == endpoint[0][1]:
+                mini = min(now[0], endpoint[0][0])
+                maxi = max(now[0], endpoint[0][0])
+
+                for i in range(mini, maxi + 1):
+                    path[num_path, :] = [i, now[1]]
+                    num_path = num_path + 1
+                            
+            if now[1] == endpoint[1][1]:
+                mini = min(now[0], endpoint[1][0])
+                maxi = max(now[0], endpoint[1][0])
+
+                for i in range(mini, maxi + 1):
+                    path[num_path, :] = [i, now[1]]
+                    num_path = num_path + 1                        
+
+    return keep, maps, path
+
+
+
+#######################################################################
+#######################################################################
+
+
+def imstuck(maps):
+    for i in range(maps.shape[0]):
+        for j in range(maps.shape[1]):
+            if maps[i, j] != 1:
+                if maps[i, j + 1] == 1 and maps[i, j - 1] == 1:
+                    maps[i, j] = 10
+                elif maps[i + 1, j] == 1 and maps[i - 1, j] == 1:
+                    maps[i, j] = 10
+    return maps
+
+
+#######################################################################
+#######################################################################
+
+
+def imnotstuck(maps):
+    for i in range(maps.shape[0]):
+        for j in range(maps.shape[1]):
+            if maps[i, j] == 10:
+                maps[i, j] = 0
+
+    return maps
+
+
+#######################################################################
+#######################################################################
+
+def redraw(path, num_path):
+    for i in range(path.shape[0] - 1, 0, -1):
+        if path[i][0] == path[i - 1][0] and path[i][1] == path[i - 1][1]:
+            path = np.delete(path, i, axis = 0)
+    
+    num_path = None
+    num_path = path.shape[0]
+
+    return path, num_path

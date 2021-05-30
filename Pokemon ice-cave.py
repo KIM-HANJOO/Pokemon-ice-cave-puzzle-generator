@@ -35,18 +35,10 @@ maps[:, 0] = 1
 maps[:, width + 1] = 1
 maps[length + 1, :] = 1
 maps[0, :] = 1
-
-for i in range(0, initial_rocks.shape[0]):
-    maps[initial_rocks[i][0], initial_rocks[i][1]] = 1
-    
-for i in range(0, startpoint.shape[0]):
-    maps[startpoint[i][0], startpoint[i][1]] = 2
-    
-for i in range(0, endpoint.shape[0]):
-    maps[endpoint[i][0], endpoint[i][1]] = 3
     
 
 ## randomly set startpoint
+startpoint_save = startpoint
 startpoint = startpoint[randint(1, startpoint.shape[0]) - 1]
 
 ## check if the start / end move is vertical / horizontal
@@ -90,16 +82,12 @@ for i in range(0, initial_rocks.shape[0]):
 #######################################################################
 #######################################################################
 
-
-# now_latest = now
-# now, maps, horizontal, rock_now = ice.nextile(now, maps, horizontal)
-# maps, path, rocks, num_path, num_rocks = ice.writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, now_latest)
-# horizontal, vertical = vertical, horizontal
-
-#
-# a = 0
+joints = 0
 while keep == 1:
     
+    #find stuckpoint
+    maps = ice.imstuck(maps)
+
     #update now_latest
     now_latest = now
     
@@ -111,22 +99,39 @@ while keep == 1:
 
     #swap
     horizontal, vertical = vertical, horizontal
+    
+    if joints > 4:
+        #check if the path can end
+        keep, maps, path = ice.endcheck(keep, maps, path, now, endpoint, horizontal, horizontal_e)
+    
+    joints = joints + 1
 
-    #check if the path can end
-    keep = ice.endcheck(keep, maps, now, endpoint, horizontal, horizontal_e)
-    # a = a + 1
-    # if a == 5:
-    #     keep = 0
+#######################################################################
+#######################################################################
+# redraw maps
 
-
+maps = ice.imnotstuck(maps)
 
 rocks = rocks[0 : num_rocks, :]
 path = path[0 : num_path, :]
 
+path, num_path = ice.redraw(path, num_path)
 
+## set startpoint as 2, endpoint as 3
+
+for i in range(0, initial_rocks.shape[0]):
+    maps[initial_rocks[i][0], initial_rocks[i][1]] = 1
+    
+for i in range(0, startpoint.shape[0]):
+    maps[startpoint_save[i][0], startpoint_save[i][1]] = 2
+    
+for i in range(0, endpoint.shape[0]):
+    maps[endpoint[i][0], endpoint[i][1]] = 3
+    
 #######################################################################
 #######################################################################
 # plot
+
 
 print(num_path)
 print(path)
