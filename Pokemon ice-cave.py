@@ -21,7 +21,7 @@ endpoint = np.array([[3, 7], [4, 7]]) # same as (4, 8), (5, 8)
 
 initial_rocks = np.array([[4, 5]]) # same as (5, 6)
 odds_of_rocks = 0.1 # 10% odds of rocks
-
+num_joints = 5
 
 #######################################################################
 #######################################################################
@@ -55,6 +55,11 @@ problemo = 1
 while problemo == 1:
 
     problemo = 0
+    maps = None
+    path = None
+    num_path = None
+    rocks = None
+    num_rocks = None
 
     # Plot setups
     maps = np.zeros((length + 2, width + 2))
@@ -84,6 +89,7 @@ while problemo == 1:
     rocks = np.zeros([(length + 2) * (width + 2), 2])
     num_rocks = 0
     for i in range(0, initial_rocks.shape[0]):
+        maps[initial_rocks[i]] = 1
         rocks[i] = initial_rocks[i]
         num_rocks = num_rocks + 1
 
@@ -91,30 +97,42 @@ while problemo == 1:
     #######################################################################
 
     joints = 0
-    maps[startpoint] = 0.001
-    
+    # maps[startpoint[0], startpoint] = 0.001
+
     while keep == 1:
         
         #find stuckpoint
-        maps = ice.imstuck(maps)
+        if keep == 1:
+            maps = ice.imstuck(maps)
 
         #update now_latest
-        now_latest = now
+        if keep == 1:
+            now_latest = now
         
         #decide next tile
-        now, maps, horizontal, rock_now, problemo = ice.nextile(now, maps, horizontal)
+        if keep == 1:
+            now, maps, horizontal, rock_now, problemo = ice.nextile(now, maps, horizontal)
+            keep = ice.errorcheck(now, now_latest)
         
         #update maps, path, rocks
-        maps, path, rocks, num_path, num_rocks = ice.writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, now_latest)
+        if keep == 1:
+            maps, path, rocks, num_path, num_rocks = ice.writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, now_latest)
+            keep = ice.errorcheck(now, now_latest)
 
         #swap
-        horizontal, vertical = vertical, horizontal
+        if keep == 1:
+            horizontal, vertical = vertical, horizontal
+            keep = ice.errorcheck(now, now_latest)
         
-        if joints > 4:
+        if joints > num_joints:
             #check if the path can end
             keep, maps, path, num_path = ice.endcheck(keep, maps, path, num_path, now, endpoint, horizontal, horizontal_e)
         
         joints = joints + 1
+
+        if joints <= num_joints and keep == 0:
+            problemo = 1
+            print('problemo')
 
 #######################################################################
 #######################################################################
@@ -151,11 +169,11 @@ print(now)
  
 with np.printoptions(precision=3, suppress=True):
     print(maps)
-    
-plt.plot(path[:, 0], path[:, 1], 'ro-')
-plt.plot(startpoint_save, 'r*')
-plt.plot(endpoint, 'r*')
-plt.axis([0, length + 1, 0, width + 1])
+# column to x axis, reversed row to y axis
+plt.plot(path[:, 1], (-1) * path[:, 0], 'ro-')
+# plt.plot(startpoint_save, 'r*')
+# plt.plot(endpoint, 'r*')
+plt.axis([0, width + 1, -(length + 1), 0])
 
-plt.plot(rocks[:, 0], rocks[:, 1], 'bo')
+plt.plot(rocks[:, 1], (-1) * rocks[:, 0], 'bo')
 plt.show()
