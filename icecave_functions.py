@@ -41,6 +41,9 @@ from numpy.lib.stride_tricks import _broadcast_to_dispatcher
 # redraw the array 'path', 'num_path' and 'rocks', 'num_rocks'
 # code : path, num_path = redraw(path, num_path)
 
+##### dontblockend #####
+# making...
+
 #################################################################################################################
 #################################################################################################################
 #################################################################################################################
@@ -75,6 +78,8 @@ def nextile(now, maps, horizontal):
                     elif (map_checker[i] < 0 and map_checker[i] > -1):
                         if i > 0:
                             map_checker[i - 1] = 1
+        rockend_1 = None
+        rockend_2 = None
 
         rockend_1 = 0
         rockend_2 = 0
@@ -82,7 +87,7 @@ def nextile(now, maps, horizontal):
             if map_checker[i] > 99:
                 rockend_1 = i
             if map_checker[i] > -99:
-                rockend_2 = i + 1
+                rockend_2 = i
 
         rockend = np.array([rockend_1, rockend_2])
         map_checker[now_column] = 1
@@ -90,10 +95,25 @@ def nextile(now, maps, horizontal):
         nextile_column = now_column
         keep_check = 1
 
-        while keep_check == 1:
-            nextile_column = randint(rockend_1 + 1, rockend_2 - 2)
-            if map_checker[nextile_column] != 1:
-                keep_check = 0
+        if rockend_1 + 1 == rockend_2 - 1:
+            nextile_column = now[1]
+            problemo = 1
+
+        elif rockend_1 + 1 != rockend_2 - 1:
+            problemo = 0
+            find_problem = 0
+            while keep_check == 1 and find_problem < 100:
+                if rockend_1 + 1 <= rockend_2 - 1:
+                    nextile_column = randint(rockend_1 + 1, rockend_2 - 1)
+                    if map_checker[nextile_column] != 1:
+                        keep_check = 0
+                    elif map_checker[nextile_column] == 1:
+                        find_problem = find_problem + 1
+                        if find_problem == 99:
+                            problemo = 1
+                elif rockend_1 + 1 > rockend_2 - 1:
+                    keep_check = 0
+                    problemo = 1
 
         now = [now_row, nextile_column]
 
@@ -134,6 +154,9 @@ def nextile(now, maps, horizontal):
                     elif (map_checker[i] < 0 and map_checker[i] > -1):
                         if i > 0:
                             map_checker[i - 1] = 1
+        
+        rockend_1 = None
+        rockend_2 = None
 
         rockend_1 = 0
         rockend_2 = 0
@@ -141,18 +164,32 @@ def nextile(now, maps, horizontal):
             if map_checker[i] > 99:
                 rockend_1 = i
             elif map_checker[i] < -99:
-                rockend_2 = i + 1
+                rockend_2 = i
 
         rockend = np.array([rockend_1, rockend_2])
         map_checker[now_row] = 1
 
         nextile_row = now_row
         keep_check = 1
+        if rockend_1 + 1 == rockend_2 - 1:
+            nextile_row = now[0]
+            problemo = 1
+        elif rockend_1 + 1 != rockend_2 - 1:
+            problemo = 0
 
-        while keep_check == 1:
-            nextile_row = randint(rockend_1 + 1, rockend_2 - 2)
-            if map_checker[nextile_row] != 1:
-                keep_check = 0
+            find_problem = 0
+            while keep_check == 1 and find_problem < 100:
+                if rockend_1 + 1 <= rockend_2 - 1:
+                    nextile_row = randint(rockend_1 + 1, rockend_2 - 1)
+                    if map_checker[nextile_row] != 1:
+                        keep_check = 0
+                    elif map_checker[nextile_row] == 1:
+                        find_problem = find_problem + 1
+                        if find_problem == 99:
+                            problemo = 1
+                elif rockend_1 + 1 > rockend_2 - 1:
+                    keep_check = 0
+                    problemo = 1
 
         now = [nextile_row, now_column]
 
@@ -160,6 +197,23 @@ def nextile(now, maps, horizontal):
 
         # add rock
         # is nextile left or right
+        # print('rockend')
+        # print(rockend)
+        
+        # print('nextile_row')
+        # print(nextile_row)
+        # print('nextile_row + 1')
+        # print(nextile_row + 1)
+        # print('now')
+        # print(now)
+        # print('now_column')
+        # print(now_column)
+        # print('map_checker')
+        # print(map_checker)
+        
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(maps)
+
         if nextile_row - now_row < 0:
             maps[nextile_row - 1, now_column] = 1
             rock_now = np.array([nextile_row - 1, now_column])
@@ -169,7 +223,7 @@ def nextile(now, maps, horizontal):
         
         
         
-    return now, maps, horizontal, rock_now
+    return now, maps, horizontal, rock_now, problemo
 
 #######################################################################
 #######################################################################
@@ -213,7 +267,7 @@ def writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, 
 #######################################################################
 #######################################################################
 
-def endcheck(keep, maps, path, now, endpoint, horizontal, horizontal_e):
+def endcheck(keep, maps, path, num_path, now, endpoint, horizontal, horizontal_e):
       
     
     if horizontal != horizontal_e:
@@ -311,7 +365,7 @@ def endcheck(keep, maps, path, now, endpoint, horizontal, horizontal_e):
                     path[num_path, :] = [i, now[1]]
                     num_path = num_path + 1                        
 
-    return keep, maps, path
+    return keep, maps, path, num_path
 
 
 
@@ -320,8 +374,8 @@ def endcheck(keep, maps, path, now, endpoint, horizontal, horizontal_e):
 
 
 def imstuck(maps):
-    for i in range(maps.shape[0]):
-        for j in range(maps.shape[1]):
+    for i in range(1, maps.shape[0] - 1):
+        for j in range(1, maps.shape[1] - 1):
             if maps[i, j] != 1:
                 if maps[i, j + 1] == 1 and maps[i, j - 1] == 1:
                     maps[i, j] = 10
@@ -355,3 +409,15 @@ def redraw(path, num_path):
     num_path = path.shape[0]
 
     return path, num_path
+
+
+#######################################################################
+#######################################################################
+
+# def dontblockend(maps, endpoint, horizontal_e):
+#     if horizontal_e == 1:
+#         for i in range(maps.shape[0]):
+#             for j in range(maps.shape[1]):
+#                 if maps[endpoint[0]
+
+

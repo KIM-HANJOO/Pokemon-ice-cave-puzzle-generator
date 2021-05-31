@@ -27,16 +27,6 @@ odds_of_rocks = 0.1 # 10% odds of rocks
 #######################################################################
 
 
-# Plot setups
-maps = np.zeros((length + 2, width + 2))
-
-## set rocks
-maps[:, 0] = 1
-maps[:, width + 1] = 1
-maps[length + 1, :] = 1
-maps[0, :] = 1
-    
-
 ## randomly set startpoint
 startpoint_save = startpoint
 startpoint = startpoint[randint(1, startpoint.shape[0]) - 1]
@@ -57,54 +47,74 @@ else:
     horizontal_e = 1
 
 
-## set initial setups
-keep = 1
-
-row = startpoint[0]
-column = startpoint[1]
-
-horizontal = horizontal_s
-vertical = vertical_s
-
-now = startpoint
-
-### path set
-path = np.zeros([(length + 2) * (width + 2), 2])
-num_path = 0
-
-### rock set
-rocks = np.zeros([(length + 2) * (width + 2), 2])
-num_rocks = 0
-for i in range(0, initial_rocks.shape[0]):
-    rocks[i] = initial_rocks[i]
-    num_rocks = num_rocks + 1
-
 #######################################################################
 #######################################################################
+### restart point ###
 
-joints = 0
-while keep == 1:
-    
-    #find stuckpoint
-    maps = ice.imstuck(maps)
+problemo = 1 
+while problemo == 1:
 
-    #update now_latest
-    now_latest = now
-    
-    #decide next tile
-    now, maps, horizontal, rock_now = ice.nextile(now, maps, horizontal)
-    
-    #update maps, path, rocks
-    maps, path, rocks, num_path, num_rocks = ice.writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, now_latest)
+    problemo = 0
 
-    #swap
-    horizontal, vertical = vertical, horizontal
+    # Plot setups
+    maps = np.zeros((length + 2, width + 2))
+
+    ## set rocks
+    maps[:, 0] = 1
+    maps[:, width + 1] = 1
+    maps[length + 1, :] = 1
+    maps[0, :] = 1
+
+    ## set initial setups
+    keep = 1
+
+    row = startpoint[0]
+    column = startpoint[1]
+
+    horizontal = horizontal_s
+    vertical = vertical_s
+
+    now = startpoint
+
+    ### path set
+    path = np.zeros([(length + 2) * (width + 2), 2])
+    num_path = 0
+
+    ### rock set
+    rocks = np.zeros([(length + 2) * (width + 2), 2])
+    num_rocks = 0
+    for i in range(0, initial_rocks.shape[0]):
+        rocks[i] = initial_rocks[i]
+        num_rocks = num_rocks + 1
+
+    #######################################################################
+    #######################################################################
+
+    joints = 0
+    maps[startpoint] = 0.001
     
-    if joints > 4:
-        #check if the path can end
-        keep, maps, path = ice.endcheck(keep, maps, path, now, endpoint, horizontal, horizontal_e)
-    
-    joints = joints + 1
+    while keep == 1:
+        
+        #find stuckpoint
+        maps = ice.imstuck(maps)
+
+        #update now_latest
+        now_latest = now
+        
+        #decide next tile
+        now, maps, horizontal, rock_now, problemo = ice.nextile(now, maps, horizontal)
+        
+        #update maps, path, rocks
+        maps, path, rocks, num_path, num_rocks = ice.writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, now_latest)
+
+        #swap
+        horizontal, vertical = vertical, horizontal
+        
+        if joints > 4:
+            #check if the path can end
+            keep, maps, path, num_path = ice.endcheck(keep, maps, path, num_path, now, endpoint, horizontal, horizontal_e)
+        
+        joints = joints + 1
 
 #######################################################################
 #######################################################################
@@ -143,6 +153,8 @@ with np.printoptions(precision=3, suppress=True):
     print(maps)
     
 plt.plot(path[:, 0], path[:, 1], 'ro-')
+plt.plot(startpoint_save, 'r*')
+plt.plot(endpoint, 'r*')
 plt.axis([0, length + 1, 0, width + 1])
 
 plt.plot(rocks[:, 0], rocks[:, 1], 'bo')
