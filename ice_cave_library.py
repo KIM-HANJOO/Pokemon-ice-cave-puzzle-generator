@@ -66,18 +66,45 @@ def nextile(now, maps, horizontal):
                 map_checker[i] = 100
             elif map_checker[i] < -99:
                 map_checker[i] = -100
+        ################################################
+        print('map_now')
+        with np.printoptions(precision=3, suppress=True):
+            print(map_now)
+        print('i am at')
+        print(now_column)
+        print('now_column - owns')
+        chch = np.zeros(map_now.shape[0])
+        for i in range(0, map_now.shape[0]):
+            chch[i] = now_column - owns[i]
+        print(chch)
+        print('map checker before considering path')
+        print(map_checker)
+        ################################################
 
-        for i in range(0, map_checker.shape[0]):  
-            if map_checker[i] < 10:
-                if map_checker[i] > -10:
-                    #map_checker[i] = 0
-                    if (map_checker[i] > 0 and map_checker[i] < 1):
-                        if i < map_checker.shape[0]:
-                            map_checker[i + 1] = 1
+        
+        for i in range(now_column - 1, -1, - 1):
+            if map_checker[i] > 0 and map_checker[i] < 1:
+                map_checker[i + 1] = 1
 
-                    elif (map_checker[i] < 0 and map_checker[i] > -1):
-                        if i > 0:
-                            map_checker[i - 1] = 1
+        for i in range(now_column, map_checker.shape[0], 1):
+            if map_checker[i] < 0 and map_checker[i] > -1:
+                map_checker[i - 1] = 1
+        # for i in range(0, map_checker.shape[0]):  
+        #     if map_checker[i] < 10:
+        #         if map_checker[i] > -10:
+        #             #map_checker[i] = 0
+        #             if (map_checker[i] > 0 and map_checker[i] < 1):
+        #                 if i < map_checker.shape[0]:
+        #                     map_checker[i + 1] = 1
+
+        #             elif (map_checker[i] < 0 and map_checker[i] > -1):
+        #                 if i > 0:
+        #                     map_checker[i - 1] = 1
+        ################################################
+        print('map_checker after considering path')
+        print(map_checker)
+        ################################################
+
         rockend_1 = None
         rockend_2 = None
 
@@ -141,20 +168,45 @@ def nextile(now, maps, horizontal):
                 map_checker[i] = 100
             elif map_checker[i] < -99:
                 map_checker[i] = -100
+        ################################################
+        print('map_now')
+        with np.printoptions(precision=3, suppress=True):
+            print(map_now)
+        print('i am at')
+        print(now_row)
+        print('now_row - owns')
+        chch = np.zeros(map_now.shape[0])
+        for i in range(0, map_now.shape[0]):
+            chch[i] = now_row - owns[i]
+        print(chch)
+        print('map checker before considering path')
+        print(map_checker)
+        ################################################
+        for i in range(now_row - 1, -1, - 1):
+            if map_checker[i] > 0 and map_checker[i] < 1:
+                map_checker[i + 1] = 1
 
-        for i in range(0, map_checker.shape[0]):  
+        for i in range(now_row, map_checker.shape[0], 1):
+            if map_checker[i] < 0 and map_checker[i] > -1:
+                map_checker[i - 1] = 1
+        # for i in range(0, map_checker.shape[0]):  
 
-            if map_checker[i] < 10:
-                if map_checker[i] > -10:
-                    #map_checker[i] = 0
-                    if (map_checker[i] > 0 and map_checker[i] < 1):
-                        if i < map_checker.shape[0]:
-                            map_checker[i + 1] = 1
+        #     if map_checker[i] < 10:
+        #         if map_checker[i] > -10:
+        #             #map_checker[i] = 0
+        #             if (map_checker[i] > 0 and map_checker[i] < 1):
+        #                 if i < map_checker.shape[0]:
+        #                     map_checker[i + 1] = 1
 
-                    elif (map_checker[i] < 0 and map_checker[i] > -1):
-                        if i > 0:
-                            map_checker[i - 1] = 1
-        
+        #             elif (map_checker[i] < 0 and map_checker[i] > -1):
+        #                 if i > 0:
+        #                     map_checker[i - 1] = 1
+        ################################################
+        ################################################
+        print('map_checker after considering path')
+        print(map_checker)
+        ################################################
+        ################################################
         rockend_1 = None
         rockend_2 = None
 
@@ -197,20 +249,23 @@ def nextile(now, maps, horizontal):
 
         # add rock
         # is nextile left or right
-        # print('rockend')
-        # print(rockend)
+        ################################################
+        print('map_now')
+        print(map_now)
+        print('rockend')
+        print(rockend)
         
-        # print('nextile_row')
-        # print(nextile_row)
-        # print('nextile_row + 1')
-        # print(nextile_row + 1)
-        # print('now')
-        # print(now)
-        # print('now_column')
-        # print(now_column)
-        # print('map_checker')
-        # print(map_checker)
-        
+        print('nextile_row')
+        print(nextile_row)
+        print('nextile_row + 1')
+        print(nextile_row + 1)
+        print('now')
+        print(now)
+        print('now_column')
+        print(now_column)
+        print('map_checker')
+        print(map_checker)
+        ################################################
         # with np.printoptions(precision=3, suppress=True):
         #     print(maps)
 
