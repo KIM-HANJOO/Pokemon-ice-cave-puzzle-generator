@@ -1,7 +1,7 @@
 # Libraries
 import numpy as np
 import matplotlib.pyplot as plt
-import icecave_functions as ice
+import ice_cave_library as ice
 from random import *
 
 from numpy.core.records import array
