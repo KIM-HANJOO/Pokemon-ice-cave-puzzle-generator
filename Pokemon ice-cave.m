@@ -126,7 +126,7 @@ if horizontal == 0
         map_now = map(:, startpoint(1, 2));
 
     elseif num_path > 2
-        map_now = map(:, path(num_path - 1, 2)); % slice the row we're checking
+        map_now = map(:, path(num_path - 1, 2)); % slice the objective row
     end
     map_num = zeros(max(size(map_now)), 1);
     for i = 1 : max(size(map_now))
@@ -211,7 +211,7 @@ end
     if row == endpoint(1, 1)
         
     clearvars a; clearvars b;
-    map_now = map(path(num_path - 1, 1), :); % slice the row we're checking
+    map_now = map(path(num_path - 1, 1), :); % slice the objective row
     map_num = zeros(1, max(size(map_now)));
     for i = 1 : max(size(map_now))
         map_num(1, i) = i;
@@ -249,7 +249,7 @@ elseif horizontal == 1 %%% have to make new 'column', row is fixed
     if num_path == 2
         map_now = map(startpoint(1, 1), :);
     elseif num_path > 2
-        map_now = map(path(num_path - 1, 1), :); % slice the row we're checking
+        map_now = map(path(num_path - 1, 1), :); % slice the objective row
     end
     map_num = zeros(1, max(size(map_now)));
     for i = 1 : max(size(map_now))
@@ -323,7 +323,7 @@ end
     if horizontal == horizontal_e
     if column == endpoint(1, 2)
     clearvars a; clearvars b;
-    map_now = map(:, path(num_path - 1, 2)); % slice the row we're checking
+    map_now = map(:, path(num_path - 1, 2)); % slice the objective row
     map_num = zeros(max(size(map_now)), 1);
     for i = 1 : max(size(map_now))
         map_num(i, 1) = i;
