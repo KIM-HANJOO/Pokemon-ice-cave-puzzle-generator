@@ -130,9 +130,16 @@ while problemo == 1:
         
         joints = joints + 1
 
-        if joints <= num_joints and keep == 0:
-            problemo = 1
-            print('problemo')
+        
+
+        print(joints)
+
+        if joints > width * length:
+            keep = 0
+
+        # if joints <= num_joints and keep == 0:
+        #     problemo = 1
+        #     print('problemo')
 
 #######################################################################
 #######################################################################
@@ -161,19 +168,19 @@ for i in range(0, endpoint.shape[0]):
 # plot
 
 
-print(num_path)
-print(path)
-print(rocks)
-print(now)
+# print(num_path)
+# print(path)
+# print(rocks)
+# print(now)
 
  
-with np.printoptions(precision=3, suppress=True):
-    print(maps)
-# column to x axis, reversed row to y axis
-plt.plot(path[:, 1], (-1) * path[:, 0], 'ro-')
-# plt.plot(startpoint_save, 'r*')
-# plt.plot(endpoint, 'r*')
-plt.axis([0, width + 1, -(length + 1), 0])
+# with np.printoptions(precision=3, suppress=True):
+#     print(maps)
+# # column to x axis, reversed row to y axis
+# plt.plot(path[:, 1], (-1) * path[:, 0], 'ro-')
+# # plt.plot(startpoint_save, 'r*')
+# # plt.plot(endpoint, 'r*')
+# plt.axis([0, width + 1, -(length + 1), 0])
 
-plt.plot(rocks[:, 1], (-1) * rocks[:, 0], 'bo')
-plt.show()
+# plt.plot(rocks[:, 1], (-1) * rocks[:, 0], 'bo')
+# plt.show()

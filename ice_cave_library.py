@@ -67,25 +67,25 @@ def nextile(now, maps, horizontal):
             elif map_checker[i] < -99:
                 map_checker[i] = -100
         ################################################
-        print('#######################nextile##############################')
-        print('now')
-        with np.printoptions(precision=3, suppress=True):
-            print(now)
-        print('horizontal')
-        print(horizontal)
-        print('map_now')
-        with np.printoptions(precision=3, suppress=True):
-            print(map_now)
-        print('i am at')
-        print(now_column)
-        print('now_column - owns')
-        chch = np.zeros(map_now.shape[0])
-        for i in range(0, map_now.shape[0]):
-            chch[i] = now_column - owns[i]
-        print(chch)
-        print('map checker before considering path')
-        with np.printoptions(precision=3, suppress=True):
-            print(map_checker)
+        # print('#######################nextile##############################')
+        # print('now')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(now)
+        # print('horizontal')
+        # print(horizontal)
+        # print('map_now')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(map_now)
+        # print('i am at')
+        # print(now_column)
+        # print('now_column - owns')
+        # chch = np.zeros(map_now.shape[0])
+        # for i in range(0, map_now.shape[0]):
+        #     chch[i] = now_column - owns[i]
+        # print(chch)
+        # print('map checker before considering path')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(map_checker)
         ################################################
 
         
@@ -108,9 +108,9 @@ def nextile(now, maps, horizontal):
         #                 if i > 0:
         #                     map_checker[i - 1] = 1
         ################################################
-        print('map_checker after considering path')
-        with np.printoptions(precision=3, suppress=True):
-            print(map_checker)
+        # print('map_checker after considering path')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(map_checker)
         ################################################
 
         rockend_1 = None
@@ -180,25 +180,25 @@ def nextile(now, maps, horizontal):
             elif map_checker[i] < -99:
                 map_checker[i] = -100
         ################################################
-        print('#######################nextile##############################')
-        print('now')
-        with np.printoptions(precision=3, suppress=True):
-            print(now)
-        print('horizontal')
-        print(horizontal)
-        print('map_now')
-        with np.printoptions(precision=3, suppress=True):
-            print(map_now)
-        print('i am at')
-        print(now_row)
-        print('now_row - owns')
-        chch = np.zeros(map_now.shape[0])
-        for i in range(0, map_now.shape[0]):
-            chch[i] = now_row - owns[i]
-        print(chch)
-        print('map checker before considering path')
-        with np.printoptions(precision=3, suppress=True):
-            print(map_checker)
+        # print('#######################nextile##############################')
+        # print('now')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(now)
+        # print('horizontal')
+        # print(horizontal)
+        # print('map_now')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(map_now)
+        # print('i am at')
+        # print(now_row)
+        # print('now_row - owns')
+        # chch = np.zeros(map_now.shape[0])
+        # for i in range(0, map_now.shape[0]):
+        #     chch[i] = now_row - owns[i]
+        # print(chch)
+        # print('map checker before considering path')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(map_checker)
         ################################################
         for i in range(now_row - 1, -1, - 1):
             if map_checker[i] > 0 and map_checker[i] < 1:
@@ -222,9 +222,9 @@ def nextile(now, maps, horizontal):
         #                     map_checker[i - 1] = 1
         ################################################
         ################################################
-        print('map_checker after considering path')
-        with np.printoptions(precision=3, suppress=True):
-            print(map_checker)
+        # print('map_checker after considering path')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(map_checker)
         ################################################
         ################################################
         rockend_1 = None
@@ -270,26 +270,26 @@ def nextile(now, maps, horizontal):
         # add rock
         # is nextile left or right
         ################################################
-        print('map_now')
-        with np.printoptions(precision=3, suppress=True):
-            print(map_now)
-        print('rockend')
-        print(rockend)
+        # print('map_now')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(map_now)
+        # print('rockend')
+        # print(rockend)
         
-        print('nextile_row')
-        with np.printoptions(precision=3, suppress=True):
-            print(nextile_row)
-        print('nextile_row + 1')
-        print(nextile_row + 1)
-        print('now')
-        with np.printoptions(precision=3, suppress=True):
-            print(now)
-        print('now_column')
-        with np.printoptions(precision=3, suppress=True):
-            print(now_column)
-        print('map_checker')
-        with np.printoptions(precision=3, suppress=True):
-            print(map_checker)
+        # print('nextile_row')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(nextile_row)
+        # print('nextile_row + 1')
+        # print(nextile_row + 1)
+        # print('now')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(now)
+        # print('now_column')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(now_column)
+        # print('map_checker')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(map_checker)
         ################################################
         # with np.printoptions(precision=3, suppress=True):
         #     print(maps)
@@ -363,12 +363,12 @@ def endcheck(keep, maps, path, num_path, now, endpoint, horizontal, horizontal_e
             owns_endcheck = np.arange(map_endcheck.shape[0])
             checker = np.zeros(map_endcheck.shape[0])
             ################################################
-            print('#######################endcheck##############################')
-            print('now')
-            print(now)
-            print('map_endcheck')
-            with np.printoptions(precision=3, suppress=True):
-                print(map_endcheck)
+            # print('#######################endcheck##############################')
+            # print('now')
+            # print(now)
+            # print('map_endcheck')
+            # with np.printoptions(precision=3, suppress=True):
+            #     print(map_endcheck)
             ################################################
 
             for i in range(0, owns_endcheck.shape[0]):
@@ -378,12 +378,12 @@ def endcheck(keep, maps, path, num_path, now, endpoint, horizontal, horizontal_e
                 checker[i] = 100 * map_endcheck[i] * owns_endcheck[i]
 
             ################################################
-            print('owns_endcheck')
-            with np.printoptions(precision=3, suppress=True):
-                print(owns_endcheck)
-            print('checker_ini')
-            with np.printoptions(precision=3, suppress=True):
-                print(checker)
+            # print('owns_endcheck')
+            # with np.printoptions(precision=3, suppress=True):
+            #     print(owns_endcheck)
+            # print('checker_ini')
+            # with np.printoptions(precision=3, suppress=True):
+            #     print(checker)
             ################################################
 
             leftend = 0
@@ -411,12 +411,12 @@ def endcheck(keep, maps, path, num_path, now, endpoint, horizontal, horizontal_e
             owns_endcheck = np.arange(map_endcheck.shape[0])
             checker = np.zeros(map_endcheck.shape[0])
             ################################################
-            print('#######################endcheck##############################')
-            print('now')
-            print(now)
-            print('map_endcheck')
-            with np.printoptions(precision=3, suppress=True):
-                print(map_endcheck)
+            # print('#######################endcheck##############################')
+            # print('now')
+            # print(now)
+            # print('map_endcheck')
+            # with np.printoptions(precision=3, suppress=True):
+            #     print(map_endcheck)
             
             ################################################
 
@@ -426,12 +426,12 @@ def endcheck(keep, maps, path, num_path, now, endpoint, horizontal, horizontal_e
             for i in range(0, checker.shape[0]):
                 checker[i] = 100 * map_endcheck[i] * owns_endcheck[i]
             ################################################
-            print('owns_endcheck')
-            with np.printoptions(precision=3, suppress=True):
-                print(owns_endcheck)
-            print('checker_ini')
-            with np.printoptions(precision=3, suppress=True):
-                print(checker)
+            # print('owns_endcheck')
+            # with np.printoptions(precision=3, suppress=True):
+            #     print(owns_endcheck)
+            # print('checker_ini')
+            # with np.printoptions(precision=3, suppress=True):
+            #     print(checker)
             ################################################
 
             leftend = 0
@@ -453,12 +453,12 @@ def endcheck(keep, maps, path, num_path, now, endpoint, horizontal, horizontal_e
 
             maps[now[0], min(now[1], endpoint[0][1]) : max(now[1], endpoint[0][1])] = 0.001
     ################################################
-        print('[leftend, rightend]')
-        print(endend)
+        # print('[leftend, rightend]')
+        # print(endend)
         
-        print('checker')
-        with np.printoptions(precision=3, suppress=True):
-            print(checker)
+        # print('checker')
+        # with np.printoptions(precision=3, suppress=True):
+        #     print(checker)
     ################################################
 
     if keep == 0:
