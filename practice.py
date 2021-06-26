@@ -4,7 +4,7 @@ import practice_library as ice
 from random import *
 
 ##
-top = 1
+top = 1 
 bottom = 2
 left = 3
 right = 4
@@ -74,14 +74,7 @@ maps[:, width + 1] = 1
 
 maps[startpoint[0], startpoint[1]] = 2
 
-# maps[int(startpoint[0]), int(startpoint[1])] = 2
-print(startpoint[0])
-print(startpoint[1])
 
-print(maps)
-print(startpoint)
-print(startpoint_maps)
-print(endpoint_maps)
 
 
 
