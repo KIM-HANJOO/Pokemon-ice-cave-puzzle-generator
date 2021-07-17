@@ -327,8 +327,8 @@ def writemap(maps, now, path, rocks, rock_now, num_path, num_rocks, horizontal, 
 
     elif horizontal == 0:
         # add path to maps
-        maps[min(now[0], now_latest[0]) : max(now[0], now_latest[0]), now[1]] = 0.001
-        if now[0] > now_latest[0] :
+        ]) : max(now[0], now_latest[0]), now[1]] = 0.001
+        if now[0] > now_latest[0] :maps[min(now[0], now_latest[0
             path_add = np.arange(now_latest[0], now[0] + 1, 1)
         elif now[0] < now_latest[0] :
             path_add = np.arange(now_latest[0], now[0] - 1, -1)

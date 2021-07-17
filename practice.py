@@ -22,6 +22,7 @@ endpoint_place = 4
 #initial info
 startpoint, startpoint_maps, endpoint_maps, horizontal_all = ice.initinfo(startpoint, startpoint_place, endpoint, endpoint_place, width, length)
 
+endpoint = endpoint_maps[0]
 
 #initial horizontal
 horizontal_s = horizontal_all[0]
@@ -52,7 +53,8 @@ horizontal = horizontal_s
 
 keep = 1
 joint = 0
-
+mapplot_save_list = []
+rock_save_list = []
 while keep == 1:
 
     #save now
@@ -74,7 +76,8 @@ while keep == 1:
             now = now_latest.copy()
             maps = maps_latest.copy()
     
-    print("now", now)
+    #draw maps
+    mapplot_save_list = ice.mapplot_save(now, mapplot_save_list)
 
     # swap horizontal
     if horizontal == 0:
@@ -87,11 +90,11 @@ while keep == 1:
 
     #endcheck
     if joint > 5:
-        end = ice.endcheck(now, maps, endpoint_place, horizontal, horizontal_e, width, length)
+        end = ice.endcheck(now, maps, endpoint, horizontal)
         if end == 1:
             keep = 0
 
     
 
 print("maps", maps)
-
+ice.mapplot(width, length, maps, rock_save_list, mapplot_save_list)
