@@ -386,7 +386,7 @@ def tilemap(maps, tiledir, savedir) :
                 mapng.paste(right_wall, (s * i, s * j))
             
             if maps[j, i] == 1 :
-                mapng.paste(bucket, (s * (i), s * (j)))
+                mapng.paste(bucket, (s * i, s * j))
             
             elif maps[j, i] == 0 :
                 mapng.paste(base, (s * i, s * j))
@@ -404,6 +404,7 @@ def tilemap(maps, tiledir, savedir) :
     mapng.paste(telephone, (s * 7, s * 5))
     mapng.paste(right_bottom_corner, (s * 7, s * 2))
     os.chdir(savedir)
+    mapng.resize((2 * step * maps.shape[1], 2 * step * maps.shape[0]))
     mapng.save('map.png', 'PNG')
     # mapng.show()
     return

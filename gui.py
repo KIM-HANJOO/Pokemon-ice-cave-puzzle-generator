@@ -180,6 +180,7 @@ class Game():
 
 app = QApplication(sys.argv)
 
+dhsm
 w = GBA()
 w.show()
 
