@@ -1,8 +1,8 @@
 
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QPushButton, QPlainTextEdit,
-                                QVBoxLayout, QWidget)
+                                QVBoxLayout, QWidget, QLabel)
 from PyQt5.QtCore import QProcess
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
 
 import sys
 
@@ -26,10 +26,20 @@ class GBA(QMainWindow):
         self.move(1000, 300)
         self.resize(500, 400)
         
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+        lay = QVBoxLayout(self.central_widget)
+
+        label = QLabel(self)
+        pixmap = QPixmap('logo.png')
+        label.setPixmap(pixmap)
+        self.resize(pixmap.width(), pixmap.height())
+        
+        lay.addWidget(label)
         self.btn = QPushButton("Execute")
         self.btn.pressed.connect(self.start_process)
-        self.text = QPlainTextEdit()
-        self.text.setReadOnly(True)
+        # self.text = QPlainTextEdit()
+        # self.text.setReadOnly(True)
 
         l = QVBoxLayout()
         l.addWidget(self.btn)
@@ -43,9 +53,13 @@ class GBA(QMainWindow):
        self.text.appendPlainText(s) 
 
     def start_process(self):
-        self.message("...")
+        # self.message("Executing process")
         game = Game()
-        self.message("...finished !")
+        
+        # self.message(" github.com/suhyuuk")
+    
+    def imageload(self) :
+        pass
 
 class Game():
     def __init__(self) :

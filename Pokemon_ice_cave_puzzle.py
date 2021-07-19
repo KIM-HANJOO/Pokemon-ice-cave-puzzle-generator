@@ -62,6 +62,8 @@ while problemo == 1 :
 
     keep = 1
     joint = 0
+
+    path = []
     mapplot_save_list = []
     mapplot_save_list.append(list(startpoint))
     rock_save_list = []
@@ -91,8 +93,12 @@ while problemo == 1 :
             if stuck_trial > 100 :
                 stuck = 0
                 problemo = 1
-        #draw maps
+        
+        # draw maps
         mapplot_save_list = ice.mapplot_save(now, mapplot_save_list)
+
+        # add path, path to maps
+        path, maps = ice.addpath(now, now_latest, maps, path)
 
         # swap horizontal
         if horizontal == 0:

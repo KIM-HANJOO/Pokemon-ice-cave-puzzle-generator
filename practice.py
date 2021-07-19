@@ -54,6 +54,7 @@ horizontal = horizontal_s
 keep = 1
 joint = 0
 mapplot_save_list = []
+mapplot_save_list.append(list(startpoint))
 rock_save_list = []
 while keep == 1:
 
@@ -95,6 +96,6 @@ while keep == 1:
             keep = 0
 
     
-
+mapplot_save_list.append(list(endpoint))
 print("maps", maps)
 ice.mapplot(width, length, maps, rock_save_list, mapplot_save_list)
