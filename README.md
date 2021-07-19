@@ -11,7 +11,7 @@ collidable buckets, slippery floor, starts from the stairs and head to the apert
 generates these puzzle maps automatically
 
 ***
-**example of in-game real ice cave puzzle**
+**example of in-game ice cave puzzle**
 <p align="center">
   <img src="https://github.com/suhyuuk/Pokemon-ice-cave-puzzle/blob/main/Pokemon_Gold_Silver_tiles/ice_cave_puzzle_example.jpg" img width="300px"/>
 <p/>
